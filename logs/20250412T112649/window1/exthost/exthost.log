@@ -20,3 +20,4 @@
 2025-04-12 12:21:01.225 [warning] Illegal argument: TextEditor(vs.editor.ICodeEditor:4,$model22)
 2025-04-12 12:21:01.225 [warning] Illegal argument: TextEditor(vs.editor.ICodeEditor:4,$model22)
 2025-04-12 12:21:01.226 [warning] Illegal argument: TextEditor(vs.editor.ICodeEditor:4,$model22)
+2025-04-12 13:49:42.030 [info] ExtensionService#_doActivateExtension vscode.simple-browser, startup: false, activationEvent: 'onOpenExternalUri:https'
