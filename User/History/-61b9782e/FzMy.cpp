@@ -553,6 +553,8 @@ int main(int argc, char* argv[]) {
                 
                 if (ipv4_packets.empty()) return packets;
                 
+                std::cout << "TEST\n";
+
                 // Process IPv4 packets on GPU
                 // Create a GPU queue with profiling enabled
                 sycl::property_list props{sycl::property::queue::enable_profiling()};
@@ -719,9 +721,9 @@ int main(int argc, char* argv[]) {
                     pcap_dump_flush(reinterpret_cast<pcap_dumper_t*>(pcap_writer.getDumper()));
                 }
                 
-                // std::cout << "Processed batch of " << packets.size() 
-                //           << " packets, saved " << ipv4_packets_to_save.size() 
-                //           << " IPv4 packets" << std::endl;
+                std::cout << "Processed batch of " << packets.size() 
+                          << " packets, saved " << ipv4_packets_to_save.size() 
+                          << " IPv4 packets" << std::endl;
                 
                 return tbb::flow::continue_msg();
             }
