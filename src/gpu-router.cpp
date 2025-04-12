@@ -124,8 +124,6 @@ public:
         // Add some default routes
         addRoute("192.168.1.0", "255.255.255.0", "192.168.1.1", 0);
         addRoute("10.0.0.0", "255.0.0.0", "10.0.0.1", 1);
-        addRoutev6("2001:db8::", "ffff:ffff:ffff:ffff::", "2001:db8::1", 0);
-        addRoutev6("2001:db9::", "ffff:ffff:ffff:ffff::", "2001:db9::1", 1);
     }
     
     void addRoute(const std::string& dest, const std::string& mask, const std::string& next, int iface) {
@@ -137,15 +135,6 @@ public:
         routes_.push_back(entry);
     }
     
-    void addRoutev6(const std::string& dest, const std::string& mask, const std::string& next, int iface) {
-        RoutingEntry entry;
-        entry.destination_ip = ipToUint8Array(dest);
-        entry.subnet_mask = ipToUint8Array(mask);
-        entry.next_hop = ipToUint8Array(next);
-        entry.output_interface = iface;
-        routes_.push_back(entry);
-    }
-
     int lookupRoute(uint32_t dest_ip) {
         for (const auto& route : routes_) {
             if ((dest_ip & route.subnet_mask) == (route.destination_ip & route.subnet_mask)) {
@@ -155,15 +144,6 @@ public:
         return -1; // No route found
     }
     
-    int lookupRoutev6(const uint8_t dest_ip[16]) {
-        for (const auto& route : routes_) {
-            if (isMatchingRoute(dest_ip, route)) {
-                return route.output_interface;
-            }
-        }
-        return -1; // No route found
-    }
-
 private:
     std::vector<RoutingEntry> routes_;
     
@@ -176,31 +156,6 @@ private:
         return result;
     }
     
-    std::array<uint8_t, 16> ipToUint8Array(const std::string& ip_str) {
-        std::array<uint8_t, 16> ip_bytes = {0};
-        // Convert each part of the string into its byte representation
-        size_t start = 0, end = 0;
-        int byte_index = 0;
-        while ((end = ip_str.find(":", start)) != std::string::npos && byte_index < 8) {
-            std::string part = ip_str.substr(start, end - start);
-            ip_bytes[byte_index++] = static_cast<uint8_t>(std::stoi(part, nullptr, 16));
-            start = end + 1;
-        }
-        // Handle the last part after the last ":"
-        ip_bytes[byte_index] = static_cast<uint8_t>(std::stoi(ip_str.substr(start), nullptr, 16));
-        return ip_bytes;
-    }
-
-    bool isMatchingRoute(const uint8_t dest_ip[16], const RoutingEntry& route) {
-        // Compare each byte of destination IP with the route destination IP
-        for (int i = 0; i < 16; ++i) {
-            if ((dest_ip[i] & route.subnet_mask[i]) != (route.destination_ip[i] & route.subnet_mask[i])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 };
 
 int main(int argc, char* argv[]) {
@@ -406,32 +361,24 @@ int main(int argc, char* argv[]) {
                 
                 // Get only IPv4 packets
                 std::vector<Packet> ipv4_packets;
-                std::vector<Packet> ipv6_packets;
                 for (const auto& packet : packets) {
                     if (packet.is_ipv4) {
                         ipv4_packets.push_back(packet);
-                    } else if (packet.is_ipv6) {
-                        ipv6_packets.push_back(packet);
                     }
                 }
                 
-                if (ipv4_packets.empty() && ipv6_packets.empty()) return packets;
+                if (ipv4_packets.empty()) return packets;
                 // if (ipv6_packets.empty()) return packets;
                 
                 // Process IPv4 packets on GPU
                 sycl::queue gpu_queue(sycl::default_selector_v);
                 size_t packet_count = ipv4_packets.size();
-                size_t packet_countv6 = ipv6_packets.size();
                 
                 // Flatten packet data for GPU processing
                 std::vector<uint8_t> packet_data_flat;
                 std::vector<size_t> packet_sizes(packet_count);
                 std::vector<size_t> packet_offsets(packet_count);
                 
-                std::vector<uint8_t> packet_data_flatv6;
-                std::vector<size_t> packet_sizesv6(packet_countv6);
-                std::vector<size_t> packet_offsetsv6(packet_countv6);
-
                 size_t offset = 0;
                 for (size_t i = 0; i < packet_count; i++) {
                     packet_sizes[i] = ipv4_packets[i].size;
@@ -442,19 +389,7 @@ int main(int argc, char* argv[]) {
                     }
                     
                     offset += packet_sizes[i];
-                }
-
-                size_t offsetv6 = 0;
-                for (size_t i = 0; i < packet_countv6; i++) {
-                    packet_sizesv6[i] = ipv6_packets[i].size;
-                    packet_offsetsv6[i] = offsetv6;
-                    
-                    for (size_t j = 0; j < ipv6_packets[i].size; j++) {
-                        packet_data_flatv6.push_back(ipv6_packets[i].data[j]);
-                    }
-                    
-                    offsetv6 += packet_sizesv6[i];
-                }
+                }}
                 
                 // Create SYCL buffers
                 sycl::buffer<uint8_t> buf_packet_data(packet_data_flat.data(), packet_data_flat.size());
@@ -484,34 +419,6 @@ int main(int argc, char* argv[]) {
                         }
                     });
                 }).wait_and_throw();
-                
-                sycl::buffer<uint8_t> buf_packet_datav6(packet_data_flatv6.data(), packet_data_flatv6.size());
-                sycl::buffer<size_t> buf_packet_sizesv6(packet_sizesv6.data(), packet_sizesv6.size());
-                sycl::buffer<size_t> buf_packet_offsetsv6(packet_offsetsv6.data(), packet_offsetsv6.size());
-
-                // Submit GPU kernel for packet routing
-                gpu_queue.submit([&](sycl::handler& h) {
-                    auto acc_packet_datav6 = buf_packet_datav6.get_access<sycl::access::mode::read_write>(h);
-                    auto acc_packet_sizesv6 = buf_packet_sizesv6.get_access<sycl::access::mode::read>(h);
-                    auto acc_packet_offsetsv6 = buf_packet_offsetsv6.get_access<sycl::access::mode::read>(h);
-                    
-                    h.parallel_for(packet_countv6, [=](auto idx) {
-                        size_t offsetv6 = acc_packet_offsetsv6[idx];
-                        size_t sizev6 = acc_packet_sizesv6[idx];
-                        
-                        if (sizev6 >= IP_OFFSET + 40) {  // Make sure we have enough data for IPv6 header (40 bytes)
-                            // Modify the destination IPv6 address (add 1 to each byte)
-                            // IPv6 destination address starts at offset 24 in the Ethernet frame (IP_OFFSET + 24)
-                            for (size_t i = 0; i < 16; ++i) {
-                                acc_packet_datav6[offsetv6 + IP_OFFSET + 24 + i]++;
-                            }
-                            
-                            // NOTE: In a real implementation, you would also need to handle other aspects of IPv6 processing, 
-                            // such as recalculating the IPv6 checksum (if used in your protocol), handling extensions, etc.
-                        }
-                    });
-                }).wait_and_throw();
-
 
 
                 // Copy back the modified data to the original packets
@@ -531,32 +438,13 @@ int main(int argc, char* argv[]) {
                 
                 std::cout << "IPv4 routing completed on GPU for " << packet_count << " packets" << std::endl;
                 
-                auto host_datav6 = buf_packet_datav6.get_host_access();
-                
-                for (size_t i = 0; i < packet_countv6; i++) {
-                    size_t offsetv6 = packet_offsetsv6[i];
-                    size_t sizev6 = packet_sizesv6[i];
-                    
-                    for (size_t j = 0; j < sizev6; j++) {
-                        ipv6_packets[i].data[j] = host_datav6[offsetv6 + j];
-                    }
-                    
-                    // Increment routed packets counter
-                    stats.routed_packets++;
-                }
-
-                std::cout << "IPv6 routing completed on GPU for " << packet_countv6 << " packets" << std::endl;
-
                 // Merge back the IPv4 packets with the original packet list
                 std::vector<Packet> result;
                 size_t ipv4_idx = 0;
-                size_t ipv6_idx = 0;
                 
                 for (const auto& packet : packets) {
                     if (packet.is_ipv4 && ipv4_idx < ipv4_packets.size()) {
                         result.push_back(ipv4_packets[ipv4_idx++]);
-                    } else if (packet.is_ipv6 && ipv6_idx < ipv6_packets.size()) {
-                        result.push_back(ipv6_packets[ipv6_idx++]);
                     } else {
                         result.push_back(packet);
                     }
@@ -599,24 +487,7 @@ int main(int argc, char* argv[]) {
                         } else {
                             std::cout << "No route found for packet" << std::endl;
                         }
-                    } else if (packet.is_ipv6 && packet.size >= IP_OFFSET + 40) {  // IPv6 header is always 40 bytes
-                        // Extract destination IPv6 address (16 bytes)
-                        uint8_t dest_ipv6[16];
-                        for (size_t i = 0; i < 16; ++i) {
-                            dest_ipv6[i] = packet.data[IP_OFFSET + 24 + i];
-                        }
-                        
-                        // Lookup routing table (this would likely involve a more complex check for IPv6 routes)
-                        int iface = routing_table.lookupRoutev6(dest_ipv6);
-                        
-                        if (iface >= 0) {
-                            // In a real implementation, we would send the packet to the correct interface
-                            std::cout << "Packet routed to interface " << iface << std::endl;
-                        } else {
-                            std::cout << "No route found for packet" << std::endl;
-                        }
-                    }
-                    
+                    }                    
                 }
                 
                 return tbb::flow::continue_msg();
