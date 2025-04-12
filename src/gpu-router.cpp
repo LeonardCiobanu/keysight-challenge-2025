@@ -550,9 +550,10 @@ int main(int argc, char* argv[]) {
                     }
                 }
 
-                std::cout << "TEST\n";
                 
                 if (ipv4_packets.empty()) return packets;
+                
+                std::cout << "TEST\n";
                 
                 // Process IPv4 packets on GPU
                 // Create a GPU queue with profiling enabled
