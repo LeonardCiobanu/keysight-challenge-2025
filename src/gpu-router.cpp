@@ -236,8 +236,10 @@ int main(int argc, char* argv[]) {
 
 
                 // Create GPU buffers
-                std::cout << "SHJB\n";
+                std::cout << "before queue\n";
                 sycl::queue gpu_queue(sycl::gpu_selector_v, dpc_common::exception_handler);
+                std::cout << "after queue\n";
+                
                 std::cout << "Selected GPU Device: " << 
                     gpu_queue.get_device().get_info<sycl::info::device::name>() << "\n";
                 
