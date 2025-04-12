@@ -184,7 +184,7 @@ int main(int argc, char* argv[]) {
         pcap_file = argv[1];
     }
 
-    cout << pcap_file << std::endl;
+    std::cout << pcap_file << std::endl;
     
     // Initialize network statistics
     NetworkStats stats;
@@ -217,7 +217,7 @@ int main(int argc, char* argv[]) {
                 std::vector<Packet> packets;
                 int nr_packets = pcap_reader.readPacketBurst(packets, BURST_SIZE);
 
-                cout << nr_packets << "\n";
+                std::cout << nr_packets << "\n";
 
                 if (nr_packets == 0) {
                     std::cout << "No more packets" << std::endl;
