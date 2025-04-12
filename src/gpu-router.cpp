@@ -324,7 +324,7 @@ int main(int argc, char* argv[]) {
 
                                 // Check next_header field if we have enough data
                                 if (size >= IP_OFFSET + 40) {
-                                    uint8_t next_header = acc_packet_data[14 + 6];
+                                    uint8_t next_header = acc_packet_data[offset+ IP_OFFSET + 6];
 
                                     if (next_header == 58) {  // ICMPv6
                                         acc_is_icmp[idx] = 1;
@@ -341,7 +341,6 @@ int main(int argc, char* argv[]) {
                     });
                 }).wait_and_throw();
                 
-                // Read back the results
                 // Read back the results
                 auto host_ipv4 = buf_is_ipv4.get_host_access();
                 auto host_ipv6 = buf_is_ipv6.get_host_access();
