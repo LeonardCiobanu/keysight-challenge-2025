@@ -54,20 +54,17 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/defines_elementary.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/export.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/generic_type_traits.hpp \
-  /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/group_sort_impl.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/handler_proxy.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/helpers.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/host_profiling_info.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/id_queries_fit_in_int.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/image_accessor_util.hpp \
-  /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/image_ocl_types.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/impl_utils.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/info_desc_helpers.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/iostream_proxy.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/is_device_copyable.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/item_base.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/kernel_desc.hpp \
-  /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/key_value_iterator.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/memcpy.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/optional.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/os_util.hpp \
@@ -104,7 +101,6 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
   /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/fpga_mem/fpga_datapath.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/fpga_mem/fpga_mem.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/fpga_mem/properties.hpp \
-  /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/fpga_utils.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/kernel_execution_properties.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/pipe_properties.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/pipes.hpp \
@@ -170,7 +166,6 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
   /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/get_kernel_info.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/group_local_memory.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/kernel_properties/properties.hpp \
-  /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/latency_control/properties.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/matrix/matrix-intel.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/matrix/matrix-tensorcores.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/matrix/matrix-unified-utils.hpp \
@@ -268,6 +263,7 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
   /opt/intel/oneapi/compiler/2025.1/include/sycl/version.hpp \
   /opt/intel/oneapi/compiler/2025.1/include/ur_api.h \
   /opt/intel/oneapi/compiler/2025.1/include/ur_api_funcs.def \
+  /opt/intel/oneapi/compiler/2025.1/opt/compiler/include/fenv.h \
   /opt/intel/oneapi/compiler/2025.1/opt/compiler/include/limits.h \
   /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/__stdarg___gnuc_va_list.h \
   /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/__stddef_header_macro.h \
@@ -507,6 +503,7 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
+  /usr/include/fenv.h \
   /usr/include/inttypes.h \
   /usr/include/limits.h \
   /usr/include/linux/close_range.h \
@@ -555,6 +552,7 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
   /usr/include/x86_64-linux-gnu/bits/endianness.h \
   /usr/include/x86_64-linux-gnu/bits/environments.h \
   /usr/include/x86_64-linux-gnu/bits/errno.h \
+  /usr/include/x86_64-linux-gnu/bits/fenv.h \
   /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
   /usr/include/x86_64-linux-gnu/bits/floatn.h \
   /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
@@ -752,6 +750,7 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
   /usr/include/c++/13/cassert \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
+  /usr/include/c++/13/cfenv \
   /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
@@ -775,6 +774,7 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
   /usr/include/c++/13/ext/numeric_traits.h \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
+  /usr/include/c++/13/fenv.h \
   /usr/include/c++/13/forward_list \
   /usr/include/c++/13/fstream \
   /usr/include/c++/13/functional \
@@ -908,6 +908,8 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 /usr/include/c++/13/compare:
 
 /usr/include/c++/13/climits:
+
+/usr/include/c++/13/cfenv:
 
 /usr/include/c++/13/cctype:
 
@@ -1083,10 +1085,6 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
 
-/usr/include/c++/13/array:
-
-/usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h:
-
 /usr/include/c++/13/bits/nested_exception.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
@@ -1163,9 +1161,13 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /usr/include/x86_64-linux-gnu/bits/posix_opt.h:
 
-/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
+/usr/include/c++/13/stdexcept:
 
-/usr/include/x86_64-linux-gnu/bits/locale.h:
+/usr/include/c++/13/clocale:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/usm/usm_enums.hpp:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/usm.hpp:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/swizzles.def:
 
@@ -1253,8 +1255,6 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/functional.hpp:
 
-/opt/intel/oneapi/compiler/2025.1/include/sycl/detail/key_value_iterator.hpp:
-
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/virtual_mem/physical_mem.hpp:
 
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/avx10_2_512convertintrin.h:
@@ -1317,6 +1317,8 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/fpga_mem/fpga_mem.hpp:
 
+/opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/pipes.hpp:
+
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/adcintrin.h:
 
 /usr/include/c++/13/ext/concurrence.h:
@@ -1338,6 +1340,8 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 /usr/include/c++/13/utility:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/experimental/graph.hpp:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/usm_properties.hpp:
 
 /usr/include/c++/13/bits/stl_algo.h:
 
@@ -1397,35 +1401,13 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/experimental/annotated_usm/alloc_util.hpp:
 
+/opt/intel/oneapi/compiler/2025.1/opt/compiler/include/fenv.h:
+
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/experimental/annotated_usm/alloc_shared.hpp:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/matrix/matrix-intel.hpp:
 
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/xtestintrin.h:
-
-/usr/include/c++/13/bits/align.h:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/group_algorithm.hpp:
-
-/usr/include/c++/13/bits/locale_facets.h:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/experimental/annotated_usm/alloc_device.hpp:
-
-/opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/__stddef_nullptr_t.h:
-
-/opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/avx10_2_512minmaxintrin.h:
-
-/usr/include/c++/13/bits/stl_algobase.h:
-
-/opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/stdint.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/functional.hpp:
-
-/opt/intel/oneapi/tbb/2022.1/include/oneapi/tbb/global_control.h:
-
-/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/image_accessor_util.hpp:
 
@@ -1435,13 +1417,17 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/id_queries_fit_in_int.hpp:
 
-/opt/intel/oneapi/compiler/2025.1/include/sycl/version.hpp:
-
 /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/export.hpp:
 
 /usr/include/assert.h:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/queue.hpp:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/detail/property_helper.hpp:
+
+/opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/enqcmdintrin.h:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/defines.hpp:
 
@@ -1460,12 +1446,6 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 /usr/include/x86_64-linux-gnu/bits/netdb.h:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/owner_less_base.hpp:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/queue.hpp:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/detail/property_helper.hpp:
-
-/opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/enqcmdintrin.h:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/assert_happened.hpp:
 
@@ -1487,9 +1467,17 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /usr/include/inttypes.h:
 
+/usr/include/c++/13/bits/align.h:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/group_algorithm.hpp:
+
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/sub_group.hpp:
 
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/avx512bitalgintrin.h:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/sycl_span.hpp:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/kernel_bundle_enums.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
 
@@ -1504,12 +1492,6 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/avx512vnniintrin.h:
 
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/avxvnniint8intrin.h:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/pipes.hpp:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/latency_control/properties.hpp:
-
-/opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/amxtransposeintrin.h:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/reduction_forward.hpp:
 
@@ -1621,11 +1603,7 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/avx10_2minmaxintrin.h:
 
-/opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/usm_properties.hpp:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/kernel_bundle_enums.hpp:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/sycl_span.hpp:
+/opt/intel/oneapi/compiler/2025.1/include/sycl/sycl.hpp:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/device_aspect_traits.hpp:
 
@@ -1639,21 +1617,17 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/accessor.hpp:
 
+/usr/include/c++/13/ext/numeric_traits.h:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/usm/usm_allocator.hpp:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/detail/common.hpp:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/experimental/tangle_group.hpp:
+
+/opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/ptwriteintrin.h:
+
 /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/backend_traits_opencl.hpp:
-
-/usr/include/c++/13/bits/stl_raw_storage_iter.h:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/detail/impl_utils.hpp:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/experimental/annotated_usm/alloc_host.hpp:
-
-/usr/include/c++/13/bits/vector.tcc:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/usm/usm_pointer_info.hpp:
-
-/usr/include/time.h:
-
-/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/kernel_execution_properties.hpp:
 
@@ -1703,16 +1677,6 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /usr/include/x86_64-linux-gnu/asm/posix_types.h:
 
-/opt/intel/oneapi/compiler/2025.1/include/sycl/detail/common.hpp:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/experimental/tangle_group.hpp:
-
-/usr/include/c++/13/ext/numeric_traits.h:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/usm/usm_allocator.hpp:
-
-/opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/ptwriteintrin.h:
-
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/experimental/reduction_properties.hpp:
 
 /usr/include/c++/13/numeric:
@@ -1726,8 +1690,6 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/item_base.hpp:
 
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/shaintrin.h:
-
-/opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/fpga_utils.hpp:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/info_desc_helpers.hpp:
 
@@ -1793,6 +1755,8 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/type_traits.hpp:
 
+/opt/intel/oneapi/compiler/2025.1/include/sycl/version.hpp:
+
 /usr/include/c++/13/bits/algorithmfwd.h:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/util.hpp:
@@ -1845,17 +1809,11 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/task_sequence.hpp:
 
-/usr/include/x86_64-linux-gnu/bits/socket.h:
-
-/usr/include/x86_64-linux-gnu/bits/long-double.h:
-
-/opt/intel/oneapi/compiler/2025.1/include/CL/cl_platform.h:
-
 /usr/include/stdlib.h:
 
-/opt/intel/oneapi/compiler/2025.1/include/sycl/info/event_profiling_traits.def:
-
 /opt/intel/oneapi/compiler/2025.1/include/sycl/info/context_traits.def:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/info/event_profiling_traits.def:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/pipes.hpp:
 
@@ -1887,10 +1845,6 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/free_function_queries.hpp:
 
-/opt/intel/oneapi/compiler/2025.1/include/sycl/detail/group_sort_impl.hpp:
-
-/opt/intel/oneapi/dev-utilities/2025.1/include/dpc_common.hpp:
-
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/amxbf16transposeintrin.h:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/intel/experimental/pipe_properties.hpp:
@@ -1915,15 +1869,39 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/bindless_images.hpp:
 
-/opt/intel/oneapi/compiler/2025.1/include/sycl/sycl.hpp:
+/usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
 
-/opt/intel/oneapi/compiler/2025.1/include/sycl/usm.hpp:
+/opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/functional.hpp:
 
-/usr/include/c++/13/stdexcept:
+/opt/intel/oneapi/tbb/2022.1/include/oneapi/tbb/global_control.h:
 
-/usr/include/c++/13/clocale:
+/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
 
-/opt/intel/oneapi/compiler/2025.1/include/sycl/usm/usm_enums.hpp:
+/usr/include/c++/13/bits/locale_facets.h:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/experimental/annotated_usm/alloc_device.hpp:
+
+/opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/__stddef_nullptr_t.h:
+
+/opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/avx10_2_512minmaxintrin.h:
+
+/usr/include/c++/13/bits/stl_algobase.h:
+
+/opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/stdint.h:
+
+/usr/include/c++/13/bits/stl_raw_storage_iter.h:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/detail/impl_utils.hpp:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/experimental/annotated_usm/alloc_host.hpp:
+
+/usr/include/c++/13/bits/vector.tcc:
+
+/opt/intel/oneapi/compiler/2025.1/include/sycl/usm/usm_pointer_info.hpp:
+
+/usr/include/time.h:
+
+/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/vector.hpp:
 
@@ -1974,6 +1952,8 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/amxmovrstransposeintrin.h:
 
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/pkuintrin.h:
+
+/opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/amxtransposeintrin.h:
 
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/avx10_2_512niintrin.h:
 
@@ -2171,15 +2151,17 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/tmmintrin.h:
 
+/usr/include/c++/13/fenv.h:
+
 /usr/include/sched.h:
 
 /opt/intel/oneapi/compiler/2025.1/include/sycl/ext/oneapi/device_global/device_global.hpp:
 
 /usr/include/netdb.h:
 
-/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
-
 /opt/intel/oneapi/compiler/2025.1/include/sycl/detail/aligned_allocator.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/cpu-set.h:
 
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/tsxldtrkintrin.h:
 
@@ -2202,6 +2184,12 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/xmmintrin.h:
 
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/xsavecintrin.h:
+
+/opt/intel/oneapi/dev-utilities/2025.1/include/dpc_common.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/locale.h:
 
 /opt/intel/oneapi/tbb/2022.1/include/oneapi/tbb/detail/_utils.h:
 
@@ -2357,8 +2345,6 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /usr/include/arpa/inet.h:
 
-/opt/intel/oneapi/compiler/2025.1/include/sycl/detail/image_ocl_types.hpp:
-
 /opt/intel/oneapi/compiler/2025.1/lib/clang/20/include/adxintrin.h:
 
 /usr/include/asm-generic/int-ll64.h:
@@ -2376,6 +2362,8 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 /opt/intel/oneapi/compiler/2025.1/include/ur_api.h:
 
 /usr/include/features.h:
+
+/usr/include/fenv.h:
 
 /usr/include/c++/13/bits/std_abs.h:
 
@@ -2433,6 +2421,12 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 
 /usr/include/x86_64-linux-gnu/bits/environments.h:
 
+/usr/include/c++/13/array:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/fenv.h:
+
 /opt/intel/oneapi/compiler/2025.1/include/sycl/context.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
@@ -2446,3 +2440,9 @@ src/CMakeFiles/gpu-router.dir/gpu-router.cpp.o: /root/keysight-challenge-2025/sr
 /usr/include/x86_64-linux-gnu/bits/in.h:
 
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+
+/usr/include/x86_64-linux-gnu/bits/socket.h:
+
+/opt/intel/oneapi/compiler/2025.1/include/CL/cl_platform.h:
+
+/usr/include/x86_64-linux-gnu/bits/long-double.h:
