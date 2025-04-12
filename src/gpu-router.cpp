@@ -15,7 +15,7 @@
 // Constants
 const size_t BURST_SIZE = 32;
 const size_t MAX_PACKET_SIZE = 1518;  // Maximum Ethernet packet size
-const size_t IPV4_OFFSET = 14;        // Offset to IP header in Ethernet frame
+const size_t IP_OFFSET = 14;        // Offset to IP header in Ethernet frame
 
 
 // Network statistics
