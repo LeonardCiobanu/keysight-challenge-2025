@@ -14,7 +14,7 @@
 // Constants
 const size_t BURST_SIZE = 32;
 const size_t MAX_PACKET_SIZE = 1518;  // Maximum Ethernet packet size
-const size_t IPV4_OFFSET = 14;        // Offset to IP header in Ethernet frame
+const size_t IP_OFFSET = 14;        // Offset to IP header in Ethernet frame
 
 // Packet structure to store packet data and metadata
 struct Packet {
@@ -282,7 +282,7 @@ int main(int argc, char* argv[]) {
                 // Submit GPU kernel for packet inspection
                 gpu_queue.submit([&](sycl::handler& h) {
                     auto acc_packet_data = buf_packet_data.get_access<sycl::access::mode::read_write>(h);
-                    auto acc_packet_sizes = buf_packet_sizes.get_access<sycl::access::mode::read>(h);
+                    auto acc_packet_sizes = buf_packet_sizes.get_access<sycl::access::mode::read_write>(h);
                     auto acc_packet_offsets = buf_packet_offsets.get_access<sycl::access::mode::read>(h);
                     auto acc_is_ipv4 = buf_is_ipv4.get_access<sycl::access::mode::write>(h);
                     auto acc_is_ipv6 = buf_is_ipv6.get_access<sycl::access::mode::write>(h);
@@ -298,14 +298,18 @@ int main(int argc, char* argv[]) {
                         // Need at least 14 bytes for Ethernet header
                         if (size >= 14) {
                             // Check Ethernet type (bytes 12-13)
-                            uint16_t eth_type = (acc_packet_data[offset + 12] << 8) | acc_packet_data[offset + 13];
-                            
+                            // uint16_t eth_type = (acc_packet_data[offset + 12] << 8) | acc_packet_data[offset + 13];
+                            uint8_t hi = acc_packet_data[offset + 12];
+                            uint8_t lo = acc_packet_data[offset + 13];
+
+                            uint16_t eth_type = ((uint16_t)hi << 8) | lo;
+
                             if (eth_type == 0x0800) {  // IPv4
                                 acc_is_ipv4[idx] = 1;
                                 
                                 // Check protocol field if we have enough data
-                                if (size >= IPV4_OFFSET + 10) {
-                                    uint8_t protocol = acc_packet_data[offset + IPV4_OFFSET + 9];
+                                if (size >= IP_OFFSET + 10) {
+                                    uint8_t protocol = acc_packet_data[offset + IP_OFFSET + 9];
                                     
                                     if (protocol == 1) {  // ICMP
                                         acc_is_icmp[idx] = 1;
@@ -317,6 +321,19 @@ int main(int argc, char* argv[]) {
                                 }
                             } else if (eth_type == 0x86DD) {  // IPv6
                                 acc_is_ipv6[idx] = 1;
+
+                                // Check next_header field if we have enough data
+                                if (size >= IP_OFFSET + 40) {
+                                    uint8_t next_header = acc_packet_data[14 + 6];
+
+                                    if (next_header == 58) {  // ICMPv6
+                                        acc_is_icmp[idx] = 1;
+                                    } else if (next_header == 6) {  // TCP
+                                        acc_is_tcp[idx] = 1;
+                                    } else if (next_header == 17) {  // UDP
+                                        acc_is_udp[idx] = 1;
+                                    }
+                                }
                             } else if (eth_type == 0x0806) {  // ARP
                                 acc_is_arp[idx] = 1;
                             }
@@ -407,13 +424,13 @@ int main(int argc, char* argv[]) {
                         size_t offset = acc_packet_offsets[idx];
                         size_t size = acc_packet_sizes[idx];
                         
-                        if (size >= IPV4_OFFSET + 20) {  // Make sure we have enough data for IPv4 header
+                        if (size >= IP_OFFSET + 20) {  // Make sure we have enough data for IPv4 header
                             // Modify the destination IP address (add 1 to each byte)
                             // IPv4 destination address is at offset 30 in the Ethernet frame
-                            acc_packet_data[offset + IPV4_OFFSET + 16]++;
-                            acc_packet_data[offset + IPV4_OFFSET + 17]++;
-                            acc_packet_data[offset + IPV4_OFFSET + 18]++;
-                            acc_packet_data[offset + IPV4_OFFSET + 19]++;
+                            acc_packet_data[offset + IP_OFFSET + 16]++;
+                            acc_packet_data[offset + IP_OFFSET + 17]++;
+                            acc_packet_data[offset + IP_OFFSET + 18]++;
+                            acc_packet_data[offset + IP_OFFSET + 19]++;
                             
                             // NOTE: In a real implementation, we would also need to recalculate the IPv4 checksum
                         }
@@ -463,12 +480,12 @@ int main(int argc, char* argv[]) {
                 // In a real implementation, we would lookup the routing table and send packets
                 // to the correct interface. For now, just simulate this.
                 for (const auto& packet : packets) {
-                    if (packet.is_ipv4 && packet.size >= IPV4_OFFSET + 20) {
+                    if (packet.is_ipv4 && packet.size >= IP_OFFSET + 20) {
                         // Extract destination IP
-                        uint32_t dest_ip = (packet.data[IPV4_OFFSET + 16] << 24) | 
-                                          (packet.data[IPV4_OFFSET + 17] << 16) | 
-                                          (packet.data[IPV4_OFFSET + 18] << 8) | 
-                                           packet.data[IPV4_OFFSET + 19];
+                        uint32_t dest_ip = (packet.data[IP_OFFSET + 16] << 24) | 
+                                          (packet.data[IP_OFFSET + 17] << 16) | 
+                                          (packet.data[IP_OFFSET + 18] << 8) | 
+                                           packet.data[IP_OFFSET + 19];
                         
                         // Lookup routing table
                         int iface = routing_table.lookupRoute(dest_ip);
