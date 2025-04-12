@@ -549,6 +549,8 @@ int main(int argc, char* argv[]) {
                         ipv4_packets.push_back(packet);
                     }
                 }
+
+                std::cout << "TEST\n";
                 
                 if (ipv4_packets.empty()) return packets;
                 
