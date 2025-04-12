@@ -137,10 +137,10 @@ public:
         routes_.push_back(entry);
     }
     
-    void addRoutev6(const std::string& dest, int prefix_length, const std::string& next, int iface) {
+    void addRoutev6(const std::string& dest, const std::string& mask, const std::string& next, int iface) {
         RoutingEntry entry;
         entry.destination_ip = ipToUint8Array(dest);
-        entry.prefix_length = prefix_length;
+        entry.subnet_mask = ipToUint8Array(mask);
         entry.next_hop = ipToUint8Array(next);
         entry.output_interface = iface;
         routes_.push_back(entry);
