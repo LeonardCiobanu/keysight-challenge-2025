@@ -407,11 +407,12 @@ int main(int argc, char* argv[]) {
                         if (size >= IP_OFFSET + 20) {  // Make sure we have enough data for IPv4 header
                             // Modify the destination IP address (add 1 to each byte)
                             // IPv4 destination address is at offset 30 in the Ethernet frame
+                            std::cout << "packet going from: " << acc_packet_data[offset + IP_OFFSET + 16] << "." <<acc_packet_data[offset + IP_OFFSET + 17] << "." << acc_packet_data[offset + IP_OFFSET + 18] << "."<< acc_packet_data[offset + IP_OFFSET + 18] << "to: ";
                             acc_packet_data[offset + IP_OFFSET + 16]++;
                             acc_packet_data[offset + IP_OFFSET + 17]++;
                             acc_packet_data[offset + IP_OFFSET + 18]++;
                             acc_packet_data[offset + IP_OFFSET + 19]++;
-                            
+                            std::cout << acc_packet_data[offset + IP_OFFSET + 16] << "." <<acc_packet_data[offset + IP_OFFSET + 17] << "." << acc_packet_data[offset + IP_OFFSET + 18] << "."<< acc_packet_data[offset + IP_OFFSET + 18] << std::endl;
                             // NOTE: In a real implementation, we would also need to recalculate the IPv4 checksum
                         }
                     });
@@ -472,10 +473,12 @@ int main(int argc, char* argv[]) {
                         
                         if (iface >= 0) {
                             // In a real implementation, we would send the packet to the correct interface
-                            std::cout << "Packet routed to interface " << iface << std::endl;
+                            std::cout << "Packet from: " << packet.
+                            // std::cout << "Packet routed to interface " << iface << std::endl;
                         } else {
                             std::cout << "No route found for packet" << std::endl;
                         }
+
                     }
                 }
                 
