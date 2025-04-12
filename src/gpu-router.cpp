@@ -10,23 +10,13 @@
 #include <cstring>
 #include <unordered_map>
 #include "dpc_common.hpp"
+#include <pcap.h>
 
 // Constants
 const size_t BURST_SIZE = 32;
 const size_t MAX_PACKET_SIZE = 1518;  // Maximum Ethernet packet size
-const size_t IP_OFFSET = 14;        // Offset to IP header in Ethernet frame
+const size_t IPV4_OFFSET = 14;        // Offset to IP header in Ethernet frame
 
-// Packet structure to store packet data and metadata
-struct Packet {
-    std::array<uint8_t, MAX_PACKET_SIZE> data;
-    size_t size;
-    bool is_ipv4;
-    bool is_ipv6;
-    bool is_arp;
-    bool is_icmp;
-    bool is_tcp;
-    bool is_udp;
-};
 
 // Network statistics
 struct NetworkStats {
@@ -39,94 +29,84 @@ struct NetworkStats {
     std::atomic<uint64_t> total_packets{0};
     std::atomic<uint64_t> routed_packets{0};
 };
+// Define your Packet structure
+struct Packet {
+    std::vector<uint8_t> data;
+    size_t size;
+    bool is_ipv4;
+    bool is_ipv6;
+    bool is_arp;
+    bool is_icmp;
+    bool is_tcp;
+    bool is_udp;
 
-// PCAP reader class to read packet captures
+    Packet() : data(MAX_PACKET_SIZE), size(0), is_ipv4(false), is_ipv6(false),
+               is_arp(false), is_icmp(false), is_tcp(false), is_udp(false) {}
+};
+
+// PCAP reader class to read packet captures using libpcap
 class PCAPReader {
 public:
-    PCAPReader(const std::string& filename) : filename_(filename), file_(filename, std::ios::binary) {
-        if (!file_.is_open()) {
-            std::cerr << "Failed to open PCAP file: " << filename << std::endl;
-            return;
-        }
-        
-        // Read PCAP header (24 bytes)
-        file_.read(reinterpret_cast<char*>(&pcap_header_), sizeof(pcap_header_));
-        
-        // Check magic number to determine endianness and version
-        if (pcap_header_.magic_number == 0xa1b2c3d4 || pcap_header_.magic_number == 0xd4c3b2a1) {
-            std::cout << "PCAP file opened successfully: " << filename << std::endl;
+    PCAPReader(const std::string& filename) : filename_(filename), handle_(nullptr) {
+        char errbuf[PCAP_ERRBUF_SIZE];
+        handle_ = pcap_open_offline(filename.c_str(), errbuf);
+
+        if (!handle_) {
+            std::cerr << "Failed to open PCAP file: " << errbuf << std::endl;
         } else {
-            std::cerr << "Invalid PCAP format" << std::endl;
-            file_.close();
+            std::cout << "PCAP file opened successfully: " << filename << std::endl;
         }
     }
-    
+
     ~PCAPReader() {
-        if (file_.is_open()) {
-            file_.close();
+        if (handle_) {
+            pcap_close(handle_);
         }
     }
-    
+
     // Read a burst of packets
     int readPacketBurst(std::vector<Packet>& packets, size_t max_packets) {
-        if (!file_.is_open()) return 0;
-        
-        int count = 0;
+        if (!handle_) return 0;
+
         packets.clear();
-        
-        while (count < max_packets) {
+        struct pcap_pkthdr* header;
+        const u_char* data;
+        int res;
+        int count = 0;
+
+        while (count < static_cast<int>(max_packets) && (res = pcap_next_ex(handle_, &header, &data)) >= 0) {
+            if (res == 0) continue; // Timeout or no packet
+
             Packet packet;
-            
-            // Read packet header (16 bytes)
-            struct {
-                uint32_t ts_sec;
-                uint32_t ts_usec;
-                uint32_t incl_len;
-                uint32_t orig_len;
-            } packet_header;
-            
-            if (!file_.read(reinterpret_cast<char*>(&packet_header), sizeof(packet_header))) {
-                // End of file
-                break;
-            }
-            
-            packet.size = std::min(packet_header.incl_len, static_cast<uint32_t>(MAX_PACKET_SIZE));
-            
-            // Read packet data
-            file_.read(reinterpret_cast<char*>(packet.data.data()), packet.size);
-            
-            // Initialize packet type flags
+            packet.size = std::min(static_cast<size_t>(header->caplen), MAX_PACKET_SIZE);
+            std::memcpy(packet.data.data(), data, packet.size);
+
+            // Set packet type flags (you can implement actual parsing here if needed)
             packet.is_ipv4 = false;
             packet.is_ipv6 = false;
             packet.is_arp = false;
             packet.is_icmp = false;
             packet.is_tcp = false;
             packet.is_udp = false;
-            
+
             packets.push_back(packet);
             count++;
         }
-        
+
+        if (res == -1) {
+            std::cerr << "Error reading packet: " << pcap_geterr(handle_) << std::endl;
+        }
+
         return count;
     }
-    
+
     bool isOpen() const {
-        return file_.is_open();
+        return handle_ != nullptr;
     }
-    
+
 private:
     std::string filename_;
-    std::ifstream file_;
-    
-    struct {
-        uint32_t magic_number;
-        uint16_t version_major;
-        uint16_t version_minor;
-        int32_t thiszone;
-        uint32_t sigfigs;
-        uint32_t snaplen;
-        uint32_t network;
-    } pcap_header_;
+    pcap_t* handle_;
 };
 
 // Routing table entry
@@ -179,7 +159,7 @@ private:
 
 int main(int argc, char* argv[]) {
     // Check command line arguments
-    std::string pcap_file = "../../src/capture2.pcap";
+    std::string pcap_file = "../../src/capture1.pcap";
     if (argc > 1) {
         pcap_file = argv[1];
     }
@@ -214,6 +194,7 @@ int main(int argc, char* argv[]) {
             [&](tbb::flow_control& fc) -> std::vector<Packet> {
                 std::vector<Packet> packets;
                 int nr_packets = pcap_reader.readPacketBurst(packets, BURST_SIZE);
+                
                 if (nr_packets == 0) {
                     std::cout << "No more packets" << std::endl;
                     fc.stop();
@@ -230,8 +211,7 @@ int main(int argc, char* argv[]) {
         tbb::flow::function_node<std::vector<Packet>, std::vector<Packet>> inspect_packet_node{
             g, tbb::flow::unlimited, [&](std::vector<Packet> packets) {
                 if (packets.empty()) return packets;
-
-
+                
                 // Create GPU buffers
                 sycl::queue gpu_queue(sycl::default_selector_v, dpc_common::exception_handler);
                 std::cout << "Selected GPU Device: " << 
@@ -322,9 +302,9 @@ int main(int argc, char* argv[]) {
                             } else if (eth_type == 0x86DD) {  // IPv6
                                 acc_is_ipv6[idx] = 1;
 
-                                // Check next_header field if we have enough data
+                                // Check next_header field if we have
                                 if (size >= IP_OFFSET + 40) {
-                                    uint8_t next_header = acc_packet_data[offset+ IP_OFFSET + 6];
+                                    uint8_t next_header = acc_packet_data[14 + 6];
 
                                     if (next_header == 58) {  // ICMPv6
                                         acc_is_icmp[idx] = 1;
@@ -341,6 +321,7 @@ int main(int argc, char* argv[]) {
                     });
                 }).wait_and_throw();
                 
+                // Read back the results
                 // Read back the results
                 auto host_ipv4 = buf_is_ipv4.get_host_access();
                 auto host_ipv6 = buf_is_ipv6.get_host_access();
