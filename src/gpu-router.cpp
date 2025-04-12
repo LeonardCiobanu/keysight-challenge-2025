@@ -179,7 +179,7 @@ private:
 
 int main(int argc, char* argv[]) {
     // Check command line arguments
-    std::string pcap_file = "../src/capture1.pcap";
+    std::string pcap_file = "../../src/capture2.pcap";
     if (argc > 1) {
         pcap_file = argv[1];
     }
@@ -208,7 +208,7 @@ int main(int argc, char* argv[]) {
             std::cerr << "Failed to open PCAP file. Exiting." << std::endl;
             return 1;
         }
-        std::cout << "OPENED FILE" << ;
+        std::cout << "OPENED FILE" << std::endl;
         // Input node: read packets from PCAP file
         tbb::flow::input_node<std::vector<Packet>> in_node{g,
             [&](tbb::flow_control& fc) -> std::vector<Packet> {
