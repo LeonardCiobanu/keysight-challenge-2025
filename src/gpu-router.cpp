@@ -686,9 +686,9 @@ int main(int argc, char* argv[]) {
                                 
                                 int iface = routing_table.lookupRoute(dest_ip);
                                 
-                                if (iface >= 0) {
-                                    local_ipv4_packets.push_back(packets[i]);
-                                }
+                                // if (iface >= 0) {
+                                local_ipv4_packets.push_back(packets[i]);
+                                // }
                             }
                         }
                         
