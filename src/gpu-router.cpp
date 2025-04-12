@@ -183,6 +183,8 @@ int main(int argc, char* argv[]) {
     if (argc > 1) {
         pcap_file = argv[1];
     }
+
+    cout << pcap_file << std::endl;
     
     // Initialize network statistics
     NetworkStats stats;
