@@ -400,7 +400,7 @@ int main(int argc, char* argv[]) {
 
                 size_t offsetv6 = 0;
                 for (size_t i = 0; i < packet_countv6; i++) {
-                    packet_sizesc6[i] = ipv6_packets[i].size;
+                    packet_sizesv6[i] = ipv6_packets[i].size;
                     packet_offsetsv6[i] = offsetv6;
                     
                     for (size_t j = 0; j < ipv6_packets[i].size; j++) {
@@ -491,7 +491,7 @@ int main(int argc, char* argv[]) {
                     size_t offsetv6 = packet_offsetsv6[i];
                     size_t sizev6 = packet_sizesv6[i];
                     
-                    for (size_t j = 0; j < size; j++) {
+                    for (size_t j = 0; j < sizev6; j++) {
                         ipv6_packets[i].data[j] = host_datav6[offsetv6 + j];
                     }
                     
@@ -499,29 +499,29 @@ int main(int argc, char* argv[]) {
                     stats.routed_packets++;
                 }
 
-                std::cout << "IPv6 routing completed on GPU for " << packet_count << " packets" << std::endl;
+                std::cout << "IPv6 routing completed on GPU for " << packet_countv6 << " packets" << std::endl;
 
                 // Merge back the IPv4 packets with the original packet list
                 std::vector<Packet> result;
                 size_t ipv4_idx = 0;
+                size_t ipv6_idx = 0;
                 
                 for (const auto& packet : packets) {
                     if (packet.is_ipv4 && ipv4_idx < ipv4_packets.size()) {
                         result.push_back(ipv4_packets[ipv4_idx++]);
-                    } else {
-                        result.push_back(packet);
-                    }
-                }
-                
-                size_t ipv6_idx = 0;
-                
-                for (const auto& packet : packetsv6) {
-                    if (packet.is_ipv6 && ipv6_idx < ipv6_packets.size()) {
+                    } else if (packet.is_ipv6 && ipv6_idx < ipv6_packets.size()) {
                         result.push_back(ipv6_packets[ipv6_idx++]);
                     } else {
                         result.push_back(packet);
                     }
+
+                    // if (packet.is_ipv6 && ipv6_idx < ipv6_packets.size()) {
+                    //     result.push_back(ipv6_packets[ipv6_idx++]);
+                    // } else {
+                    //     result.push_back(packet);
+                    // }
                 }
+                
 
                 return result;
             }
