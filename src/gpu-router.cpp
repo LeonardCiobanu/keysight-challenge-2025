@@ -155,6 +155,15 @@ public:
         return -1; // No route found
     }
     
+    int lookupRoutev6(const std::array<uint8_t, 16>& dest_ip) {
+        for (const auto& route : routes_) {
+            if (isMatchingRoute(dest_ip, route)) {
+                return route.output_interface;
+            }
+        }
+        return -1; // No route found
+    }
+
 private:
     std::vector<RoutingEntry> routes_;
     
@@ -166,14 +175,32 @@ private:
         }
         return result;
     }
-    int lookupRoutev6(const std::array<uint8_t, 16>& dest_ip) {
-        for (const auto& route : routes_) {
-            if (isMatchingRoute(dest_ip, route)) {
-                return route.output_interface;
+    
+    std::array<uint8_t, 16> ipToUint8Array(const std::string& ip_str) {
+        std::array<uint8_t, 16> ip_bytes = {0};
+        // Convert each part of the string into its byte representation
+        size_t start = 0, end = 0;
+        int byte_index = 0;
+        while ((end = ip_str.find(":", start)) != std::string::npos && byte_index < 8) {
+            std::string part = ip_str.substr(start, end - start);
+            ip_bytes[byte_index++] = static_cast<uint8_t>(std::stoi(part, nullptr, 16));
+            start = end + 1;
+        }
+        // Handle the last part after the last ":"
+        ip_bytes[byte_index] = static_cast<uint8_t>(std::stoi(ip_str.substr(start), nullptr, 16));
+        return ip_bytes;
+    }
+
+    bool isMatchingRoute(const std::array<uint8_t, 16>& dest_ip, const RoutingEntry& route) {
+        // Compare each byte of destination IP with the route destination IP
+        for (int i = 0; i < 16; ++i) {
+            if ((dest_ip[i] & route.subnet_mask[i]) != (route.destination_ip[i] & route.subnet_mask[i])) {
+                return false;
             }
         }
-        return -1; // No route found
+        return true;
     }
+
 };
 
 int main(int argc, char* argv[]) {
