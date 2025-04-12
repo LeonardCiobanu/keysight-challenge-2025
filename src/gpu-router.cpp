@@ -217,8 +217,6 @@ int main(int argc, char* argv[]) {
                 std::vector<Packet> packets;
                 int nr_packets = pcap_reader.readPacketBurst(packets, BURST_SIZE);
 
-                std::cout << nr_packets << "\n";
-
                 if (nr_packets == 0) {
                     std::cout << "No more packets" << std::endl;
                     fc.stop();
@@ -235,11 +233,11 @@ int main(int argc, char* argv[]) {
         tbb::flow::function_node<std::vector<Packet>, std::vector<Packet>> inspect_packet_node{
             g, tbb::flow::unlimited, [&](std::vector<Packet> packets) {
                 if (packets.empty()) return packets;
-                
-                std::cout<< "TEST\n";
+
 
                 // Create GPU buffers
                 sycl::queue gpu_queue(sycl::gpu_selector_v, dpc_common::exception_handler);
+                std::cout << "SHJB\n";
                 std::cout << "Selected GPU Device: " << 
                     gpu_queue.get_device().get_info<sycl::info::device::name>() << "\n";
                 
