@@ -194,7 +194,7 @@ int main(int argc, char* argv[]) {
     
     try {
         sycl::queue q;
-        std::cout << "Using device: " << q.get_device().get_info<sycl::info::device::name>() << std::endl;
+        // std::cout << "Using device: " << q.get_device().get_info<sycl::info::device::name>() << std::endl;
         
         // Set number of threads
         int nth = 10; // number of threads
