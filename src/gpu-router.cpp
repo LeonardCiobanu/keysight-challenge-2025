@@ -179,7 +179,7 @@ private:
 
 int main(int argc, char* argv[]) {
     // Check command line arguments
-    std::string pcap_file = "capture1.pcap";
+    std::string pcap_file = "../../src/capture1.pcap";
     if (argc > 1) {
         pcap_file = argv[1];
     }
@@ -194,7 +194,7 @@ int main(int argc, char* argv[]) {
     
     try {
         sycl::queue q;
-        std::cout << "Using device now: " << q.get_device().get_info<sycl::info::device::name>() << std::endl;
+        std::cout << "Using device : " << q.get_device().get_info<sycl::info::device::name>() << std::endl;
         
         // Set number of threads
         int nth = 10; // number of threads
@@ -210,7 +210,7 @@ int main(int argc, char* argv[]) {
             std::cerr << "Failed to open PCAP file. Exiting." << std::endl;
             return 1;
         }
-        
+        std::cout << "OPENED FILE" << std::endl;
         // Input node: read packets from PCAP file
         tbb::flow::input_node<std::vector<Packet>> in_node{g,
             [&](tbb::flow_control& fc) -> std::vector<Packet> {
@@ -234,7 +234,10 @@ int main(int argc, char* argv[]) {
         // Packet inspection node
         tbb::flow::function_node<std::vector<Packet>, std::vector<Packet>> inspect_packet_node{
             g, tbb::flow::unlimited, [&](std::vector<Packet> packets) {
-                if (packets.empty()) return packets;
+                if (packets.empty()) {
+			std::cout << "no more packets" << std::endl;
+			return packets;
+		}
                 
                 // Create GPU buffers
                 sycl::queue gpu_queue(sycl::gpu_selector_v, dpc_common::exception_handler);
