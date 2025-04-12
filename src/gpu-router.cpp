@@ -237,7 +237,16 @@ int main(int argc, char* argv[]) {
 
                 // Create GPU buffers
                 std::cout << "before queue\n";
-                sycl::queue gpu_queue(sycl::gpu_selector_v);
+                sycl::queue gpu_queue;
+                
+                try {
+                    gpu_queue = sycl::queue(sycl::gpu_selector_v, dpc_common::exception_handler);
+                    std::cout << "Using GPU device: "
+                              << q.get_device().get_info<sycl::info::device::name>() << "\n";
+                } catch (sycl::exception const &e) {
+                    std::cerr << "GPU not found, falling back to CPU: " << e.what() << "\n";
+                    q = sycl::queue(sycl::cpu_selector_v, dpc_common::exception_handler);
+                }
                 std::cout << "after queue\n";
                 
                 std::cout << "Selected GPU Device: " << 
