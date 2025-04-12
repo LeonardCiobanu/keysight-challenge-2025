@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <stdio.h>
 #include <sycl/sycl.hpp>
 #include <tbb/blocked_range.h>
 #include <tbb/global_control.h>
