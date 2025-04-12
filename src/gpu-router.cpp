@@ -124,8 +124,8 @@ public:
         // Add some default routes
         addRoute("192.168.1.0", "255.255.255.0", "192.168.1.1", 0);
         addRoute("10.0.0.0", "255.0.0.0", "10.0.0.1", 1);
-        addRoutev6("2001:db8::", 64, "2001:db8::1", 0);
-        addRoutev6("2001:db9::", 64, "2001:db9::1", 1);
+        addRoutev6("2001:db8::", "ffff:ffff:ffff:ffff::", "2001:db8::1", 0);
+        addRoutev6("2001:db9::", "ffff:ffff:ffff:ffff::", "2001:db9::1", 1);
     }
     
     void addRoute(const std::string& dest, const std::string& mask, const std::string& next, int iface) {
