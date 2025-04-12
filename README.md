@@ -12,4 +12,4 @@ Pentru a da intrarea, trebuie specificat: "../../src/captureX.pcap", cu X=1, 2 s
 
 Testului capture1.pcap ii corespunde result1.pcap, capture2.pcap -> result2.pcap, capture3.pcap -> result3.pcap.  
 
-Am incercat sa implementam si sa se trimita si pe socket dar din pacate nu am reusit sa l facem sa mea.  
+Am incercat sa implementam si sa se trimita si pe socket dar din pacate nu am reusit sa-l facem sa merga.  
