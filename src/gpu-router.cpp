@@ -473,8 +473,7 @@ int main(int argc, char* argv[]) {
                         
                         if (iface >= 0) {
                             // In a real implementation, we would send the packet to the correct interface
-                            std::cout << "Packet from: " << packet.
-                            // std::cout << "Packet routed to interface " << iface << std::endl;
+                            std::cout << "Packet routed to interface " << iface << std::endl;
                         } else {
                             std::cout << "No route found for packet" << std::endl;
                         }
