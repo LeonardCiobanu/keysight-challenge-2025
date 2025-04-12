@@ -155,7 +155,7 @@ public:
         return -1; // No route found
     }
     
-    int lookupRoutev6(const std::array<uint8_t, 16>& dest_ip) {
+    int lookupRoutev6(const uint8_t dest_ip[16]) {
         for (const auto& route : routes_) {
             if (isMatchingRoute(dest_ip, route)) {
                 return route.output_interface;
@@ -191,7 +191,7 @@ private:
         return ip_bytes;
     }
 
-    bool isMatchingRoute(const std::array<uint8_t, 16>& dest_ip, const RoutingEntry& route) {
+    bool isMatchingRoute(const uint8_t dest_ip[16], const RoutingEntry& route) {
         // Compare each byte of destination IP with the route destination IP
         for (int i = 0; i < 16; ++i) {
             if ((dest_ip[i] & route.subnet_mask[i]) != (route.destination_ip[i] & route.subnet_mask[i])) {
@@ -601,13 +601,13 @@ int main(int argc, char* argv[]) {
                         }
                     } else if (packet.is_ipv6 && packet.size >= IP_OFFSET + 40) {  // IPv6 header is always 40 bytes
                         // Extract destination IPv6 address (16 bytes)
-                        uint8_t dest_ip[16];
+                        uint8_t dest_ipv6[16];
                         for (size_t i = 0; i < 16; ++i) {
-                            dest_ip[i] = packet.data[IP_OFFSET + 24 + i];
+                            dest_ipv6[i] = packet.data[IP_OFFSET + 24 + i];
                         }
                         
                         // Lookup routing table (this would likely involve a more complex check for IPv6 routes)
-                        int iface = routing_table.lookupRoutev6(dest_ip);
+                        int iface = routing_table.lookupRoutev6(dest_ipv6);
                         
                         if (iface >= 0) {
                             // In a real implementation, we would send the packet to the correct interface
