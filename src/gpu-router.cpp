@@ -236,14 +236,13 @@ int main(int argc, char* argv[]) {
 
 
                 // Create GPU buffers
-                sycl::queue gpu_queue;
                 try {
-                    gpu_queue = sycl::queue(sycl::gpu_selector_v, dpc_common::exception_handler);
+                    sycl::queue gpu_queue(sycl::gpu_selector_v, dpc_common::exception_handler);
                     std::cout << "Using GPU device: "
                               << q.get_device().get_info<sycl::info::device::name>() << "\n";
                 } catch (sycl::exception const &e) {
                     std::cerr << "GPU not found, falling back to CPU: " << e.what() << "\n";
-                    qpu_queue = sycl::queue(sycl::cpu_selector_v, dpc_common::exception_handler);
+                    sycl::queue gpu_queue(sycl::cpu_selector_v, dpc_common::exception_handler);
                 }
                 
                 std::cout << "Selected GPU Device: " << 
@@ -384,12 +383,11 @@ int main(int argc, char* argv[]) {
                 if (ipv4_packets.empty()) return packets;
                 
                 // Process IPv4 packets on GPU
-                sycl::queue gpu_queue;
                 try {
-                    gpu_queue = sycl::queue(sycl::gpu_selector_v);
+                    sycl::queue gpu_queue(sycl::gpu_selector_v);
                 } catch (sycl::exception const &e) {
                     std::cerr << "GPU not found, falling back to CPU: " << e.what() << "\n";
-                    qpu_queue = sycl::queue(sycl::cpu_selector_v);
+                    sycl::queue gpu_queue(sycl::cpu_selector_v);
                 }
                 size_t packet_count = ipv4_packets.size();
                 
