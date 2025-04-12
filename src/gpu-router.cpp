@@ -155,12 +155,11 @@ private:
         }
         return result;
     }
-    
 };
 
 int main(int argc, char* argv[]) {
     // Check command line arguments
-    std::string pcap_file = "../../src/capture1.pcap";
+    std::string pcap_file = "../../src/capture2.pcap";
     if (argc > 1) {
         pcap_file = argv[1];
     }
@@ -368,7 +367,6 @@ int main(int argc, char* argv[]) {
                 }
                 
                 if (ipv4_packets.empty()) return packets;
-                // if (ipv6_packets.empty()) return packets;
                 
                 // Process IPv4 packets on GPU
                 sycl::queue gpu_queue(sycl::default_selector_v);
@@ -389,14 +387,13 @@ int main(int argc, char* argv[]) {
                     }
                     
                     offset += packet_sizes[i];
-                }}
+                }
                 
                 // Create SYCL buffers
                 sycl::buffer<uint8_t> buf_packet_data(packet_data_flat.data(), packet_data_flat.size());
                 sycl::buffer<size_t> buf_packet_sizes(packet_sizes.data(), packet_sizes.size());
                 sycl::buffer<size_t> buf_packet_offsets(packet_offsets.data(), packet_offsets.size());
                 
-                // for ipv4
                 // Submit GPU kernel for packet routing
                 gpu_queue.submit([&](sycl::handler& h) {
                     auto acc_packet_data = buf_packet_data.get_access<sycl::access::mode::read_write>(h);
@@ -419,8 +416,7 @@ int main(int argc, char* argv[]) {
                         }
                     });
                 }).wait_and_throw();
-
-
+                
                 // Copy back the modified data to the original packets
                 auto host_data = buf_packet_data.get_host_access();
                 
@@ -448,15 +444,8 @@ int main(int argc, char* argv[]) {
                     } else {
                         result.push_back(packet);
                     }
-
-                    // if (packet.is_ipv6 && ipv6_idx < ipv6_packets.size()) {
-                    //     result.push_back(ipv6_packets[ipv6_idx++]);
-                    // } else {
-                    //     result.push_back(packet);
-                    // }
                 }
                 
-
                 return result;
             }
         };
@@ -487,7 +476,7 @@ int main(int argc, char* argv[]) {
                         } else {
                             std::cout << "No route found for packet" << std::endl;
                         }
-                    }                    
+                    }
                 }
                 
                 return tbb::flow::continue_msg();
