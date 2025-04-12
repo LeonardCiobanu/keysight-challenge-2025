@@ -1,21 +1,10 @@
 # Keysight Challenge 2025
 
-## Intro
-Welcome to the Keysgiht Challenge 2025. In this challenge you will have to run code on the GPU and demonstrate your skills in parallelizing the code for better performance.
+## Overclocked: Boanta Dragos-Petru, Ciobanu George-Leonard
 
-The main description of the task is in this [document](https://docs.google.com/document/d/1-A59iiqdzbKEcdTZGfll-y3Vl6Kw7nMEBiraD2W86pU/edit?usp=sharing).
-
-### On a Linux System
-    * Build the gpu-router application
-      git clone $YOUR_GITHUB_FORK
-      cd keysight-challenge-2025
-      mkdir build
-      cd build
-      cmake ..
-      make VERBOSE=1
-
-    * Run the program
-      make run
-
-    * Clean the program
-      make clean
+Am implementat rutarea pentru IPv4, si am facut time profilling, am folosit parallel_reduce si parallel for.
+Rezultatul se stocheaza in keysight-challenge-2025/build/src/resultX.pcap.
+Pentru a da intrarea, trebuie specificat: "../../src/captureX.pcap", cu X=1, 2 sau 3. (Default este "../../src/capture<x>.pcap").
+(Pentru a rula cu un test custom puteti da comanda ./build/src/gpu-router cale_catre_fisier.pcap)
+Testului capture1.pcap ii corespunde result1.pcap, capture2.pcap -> result2.pcap, capture3.pcap -> result3.pcap.
+Am incercat sa implementam si sa se trimita si pe socket dar din pacate nu am reusit sa l facem sa mea 
