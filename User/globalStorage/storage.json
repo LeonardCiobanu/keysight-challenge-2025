@@ -38,11 +38,11 @@
             "statusBarNoFolderBackground": "#1f1f1f"
         },
         "layoutInfo": {
-            "sideBarSide": "right",
+            "sideBarSide": "left",
             "editorPartMinWidth": 220,
             "titleBarHeight": 35,
             "activityBarWidth": 48,
-            "sideBarWidth": 0,
+            "sideBarWidth": 195,
             "auxiliarySideBarWidth": 0,
             "statusBarHeight": 22,
             "windowBorder": false
