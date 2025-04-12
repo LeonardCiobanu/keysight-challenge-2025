@@ -236,6 +236,8 @@ int main(int argc, char* argv[]) {
             g, tbb::flow::unlimited, [&](std::vector<Packet> packets) {
                 if (packets.empty()) return packets;
                 
+                std::cout<< "TEST\n";
+
                 // Create GPU buffers
                 sycl::queue gpu_queue(sycl::gpu_selector_v, dpc_common::exception_handler);
                 std::cout << "Selected GPU Device: " << 
