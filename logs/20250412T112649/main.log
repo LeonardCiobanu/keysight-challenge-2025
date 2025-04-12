@@ -1,3 +1,4 @@
 2025-04-12 11:26:49.492 [info] update#setState idle
 2025-04-12 11:27:19.495 [info] update#setState checking for updates
 2025-04-12 11:27:19.503 [info] update#setState available for download
+2025-04-12 12:25:26.911 [warning] No ptyHost heartbeat after 6 seconds

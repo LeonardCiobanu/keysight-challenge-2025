@@ -214,7 +214,9 @@ int main(int argc, char* argv[]) {
             [&](tbb::flow_control& fc) -> std::vector<Packet> {
                 std::vector<Packet> packets;
                 int nr_packets = pcap_reader.readPacketBurst(packets, BURST_SIZE);
-                
+
+                cout << nr_packets << "\n";
+
                 if (nr_packets == 0) {
                     std::cout << "No more packets" << std::endl;
                     fc.stop();
