@@ -304,7 +304,7 @@ int main(int argc, char* argv[]) {
 
                                 // Check next_header field if we have
                                 if (size >= IP_OFFSET + 40) {
-                                    uint8_t next_header = acc_packet_data[14 + 6];
+                                    uint8_t next_header = acc_packet_data[offset + IP_OFFSET + 6];
 
                                     if (next_header == 58) {  // ICMPv6
                                         acc_is_icmp[idx] = 1;
