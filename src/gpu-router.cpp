@@ -202,7 +202,7 @@ int main(int argc, char* argv[]) {
         tbb::global_control gc(mp, nth);
         
         // Create TBB flow graph
-        tbb:flow::graph g;
+        tbb::flow::graph g;
         
         // Initialize PCAP reader
         PCAPReader pcap_reader(pcap_file);
