@@ -281,7 +281,7 @@ int main(int argc, char* argv[]) {
     auto overall_start = std::chrono::high_resolution_clock::now();
 
     // Check command line arguments and set up PCAP file
-    std::string pcap_file = "../../src/capture2.pcap";
+    std::string pcap_file = "../../src/capture1.pcap";
     if (argc > 1) {
         pcap_file = argv[1];
     }
@@ -554,7 +554,7 @@ int main(int argc, char* argv[]) {
                 if (ipv4_packets.empty()) return packets;
                 
                 std::cout << "TEST\n";
-                
+
                 // Process IPv4 packets on GPU
                 // Create a GPU queue with profiling enabled
                 sycl::property_list props{sycl::property::queue::enable_profiling()};
