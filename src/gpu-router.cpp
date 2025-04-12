@@ -123,7 +123,9 @@ public:
     RoutingTable() {
         // Add some default routes
         addRoute("192.168.1.0", "255.255.255.0", "192.168.1.1", 0);
-        addRoute("10.0.0.0", "255.0.0.0", "10.0.0.1", 1);
+        addRoutev6("10.0.0.0", "255.0.0.0", "10.0.0.1", 1);
+        addRoutev6("2001:db8::", 64, "2001:db8::1", 0);
+        addRoutev6("2001:db9::", 64, "2001:db9::1", 1);
     }
     
     void addRoute(const std::string& dest, const std::string& mask, const std::string& next, int iface) {
@@ -135,6 +137,15 @@ public:
         routes_.push_back(entry);
     }
     
+    void addRoutev6(const std::string& dest, int prefix_length, const std::string& next, int iface) {
+        RoutingEntry entry;
+        entry.destination_ip = ipToUint8Array(dest);
+        entry.prefix_length = prefix_length;
+        entry.next_hop = ipToUint8Array(next);
+        entry.output_interface = iface;
+        routes_.push_back(entry);
+    }
+
     int lookupRoute(uint32_t dest_ip) {
         for (const auto& route : routes_) {
             if ((dest_ip & route.subnet_mask) == (route.destination_ip & route.subnet_mask)) {
@@ -154,6 +165,14 @@ private:
             result = (a << 24) | (b << 16) | (c << 8) | d;
         }
         return result;
+    }
+    int lookupRoutev6(const std::array<uint8_t, 16>& dest_ip) {
+        for (const auto& route : routes_) {
+            if (isMatchingRoute(dest_ip, route)) {
+                return route.output_interface;
+            }
+        }
+        return -1; // No route found
     }
 };
 
@@ -561,7 +580,7 @@ int main(int argc, char* argv[]) {
                         }
                         
                         // Lookup routing table (this would likely involve a more complex check for IPv6 routes)
-                        int iface = routing_table.lookupRoute(dest_ip);
+                        int iface = routing_table.lookupRoutev6(dest_ip);
                         
                         if (iface >= 0) {
                             // In a real implementation, we would send the packet to the correct interface
