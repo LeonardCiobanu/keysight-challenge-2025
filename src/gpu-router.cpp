@@ -408,12 +408,12 @@ int main(int argc, char* argv[]) {
                             // Modify the destination IP address (add 1 to each byte)
                             // IPv4 destination address is at offset 30 in the Ethernet frame
                             size_t of = offset + IP_OFFSET;
-                            std::cout << "packet going from: " << acc_packet_data[of + 16] << "." <<acc_packet_data[of + 17] << "." << acc_packet_data[of + 18] << "."<< acc_packet_data[of + 18] << "to: ";
+                            // std::cout << "packet going from: " << acc_packet_data[of + 16] << "." <<acc_packet_data[of + 17] << "." << acc_packet_data[of + 18] << "." << acc_packet_data[of + 19] << "to: ";
                             acc_packet_data[offset + IP_OFFSET + 16]++;
                             acc_packet_data[offset + IP_OFFSET + 17]++;
                             acc_packet_data[offset + IP_OFFSET + 18]++;
                             acc_packet_data[offset + IP_OFFSET + 19]++;
-                            std::cout << acc_packet_data[of + 16] << "." <<acc_packet_data[of + 17] << "." << acc_packet_data[of + 18] << "."<< acc_packet_data[of + 18] << std::endl;
+                            // std::cout << acc_packet_data[of + 16] << "." <<acc_packet_data[of + 17] << "." << acc_packet_data[of + 18] << "."<< acc_packet_data[of + 18] << std::endl;
                             // NOTE: In a real implementation, we would also need to recalculate the IPv4 checksum
                         }
                     });
